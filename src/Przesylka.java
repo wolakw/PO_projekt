@@ -6,10 +6,9 @@ public class Przesylka implements Gabaryt{
     private String zawartosc;
     private Klient nadawca;
     private Klient odbiorca;
-    private String gab;
 
     public Przesylka(double dlugosc, double szerokosc, double wysokosc, double waga, String zawartosc, Klient nadawca,
-                     Klient odbiorca, String gab){
+                     Klient odbiorca){
         this.dlugosc = dlugosc;
         this.szerokosc = szerokosc;
         this.wysokosc = wysokosc;
@@ -17,7 +16,6 @@ public class Przesylka implements Gabaryt{
         this.zawartosc = zawartosc;
         this.nadawca = nadawca;
         this.odbiorca = odbiorca;
-        this.gab = znajdzGabaryt();
     }
 
     @Override
