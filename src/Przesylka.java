@@ -6,7 +6,6 @@ public class Przesylka implements Gabaryt{
     private String zawartosc;
     private Klient nadawca;
     private Klient odbiorca;
-
     private int id;
 
     public int getId() {
@@ -14,6 +13,10 @@ public class Przesylka implements Gabaryt{
     }
 
     public void setId(int id) {
+        this.id = id;
+    }
+
+    public Przesylka(int id) {
         this.id = id;
     }
 
