@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+
 public class Kurier {
     private String imie;
     private String nazwisko;
     private int id;
+    private ArrayList<Przesylka> dostraczone;
+    public ArrayList<Przesylka> posiadane;
 
     public String getImie() {
         return imie;
@@ -31,5 +35,26 @@ public class Kurier {
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.id = id;
+        dostraczone = new ArrayList<>();
+        posiadane = new ArrayList<>();
+    }
+
+    public void dostarcz(Przesylka p, Kurier k) {
+        posiadane.remove(p);
+        dostraczone.remove(p);
+    }
+
+    public void drukujDostarczone() {
+        System.out.println("Przesylki dostarczone: ");
+        for(Przesylka p : dostraczone) {
+            System.out.println(p);
+        }
+    }
+
+    public void drukujPosiadane() {
+        System.out.println("\nPrzesylki posiadane: ");
+        for(Przesylka p : posiadane) {
+            System.out.println("Id przesylki: " + p.getId());
+        }
     }
 }
