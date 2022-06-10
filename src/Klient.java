@@ -7,7 +7,7 @@ public class Klient {
     String nrTelefonu;
     String email;
 
-    Klient(String imie, String nazwisko, String ulica, String miejscowosc, String kodPocztowy, String nrTelefonu, String email){
+    public Klient(String imie, String nazwisko, String ulica, String miejscowosc, String kodPocztowy, String nrTelefonu, String email){
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.ulica = ulica;
