@@ -6,7 +6,7 @@ public class Firma {
     private LocalDate dataZalozenia;
     private String adres;
     private ArrayList<Kurier> kurierzy;
-    private ArrayList<Przesylka> przesylki;
+    public ArrayList<Przesylka> przesylki;
 
     public String getNazwa() {
         return nazwa;
@@ -49,9 +49,19 @@ public class Firma {
     }
 
     public void drukujPrzesylki() {
-        System.out.println("\nPrzesylki: ");
+        System.out.println("\nPrzesylki w magazynie firmy " + getNazwa() + ": ");
+
+        if (przesylki.isEmpty())
+            System.out.println("Brak przesyłek");
+
         for(Przesylka p : przesylki) {
             System.out.println("Id przesylki: " + p.getId());
         }
+    }
+
+    public String toString() {
+        return "\nNazwa firmy: " + getNazwa() +
+                "\nData założenia: " + getDataZalozenia() +
+                "\nAdres: " + getAdres();
     }
 }
