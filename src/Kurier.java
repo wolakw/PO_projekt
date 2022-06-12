@@ -39,7 +39,7 @@ public class Kurier {
         posiadane = new ArrayList<>();
     }
 
-    public void dostarcz(Przesylka p, Kurier k) {
+    public void dostarcz(Przesylka p) {
         posiadane.remove(p);
         dostarczone.add(p);
     }

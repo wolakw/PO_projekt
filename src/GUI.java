@@ -39,6 +39,7 @@ public class GUI implements ActionListener {
     private JLabel KLfirmy;
     private JComboBox KCfirmy;
     private JButton KBdodaj;
+    private JLabel KLwybierz;
     private JComboBox KCfirmy2;
     private JComboBox KCkurierzy;
     private JButton KBposiadane;
@@ -75,6 +76,10 @@ public class GUI implements ActionListener {
         buttonKdodaj(e);
 
         buttonKfirmy(e);
+
+        buttonKposiadane(e);
+
+        buttonKdostarczone(e);
 
         buttonPdodaj(e);
     }
@@ -165,6 +170,7 @@ public class GUI implements ActionListener {
         KBdodaj = new JButton("Dodaj kuriera");
         KBdodaj.addActionListener(this);
 
+        KLwybierz = new JLabel("Wybierz kuriera");
         KCfirmy2 = new JComboBox();
         for (Firma f : firmy) {
             KCfirmy2.addItem(f.getNazwa());
@@ -172,16 +178,19 @@ public class GUI implements ActionListener {
         KCfirmy2.addActionListener(this);
 
         KCkurierzy = new JComboBox();
-        //KCkurierzy.addItem("kupa");
-//        for (Firma f : firmy) {
-//            if (KCfirmy2.getSelectedItem().equals(f.getNazwa())) {
-//                KCkurierzy.removeAllItems();
-//                for (Kurier k : f.kurierzy) {
-//                    KCkurierzy.addItem(k.getImie() + " " + k.getNazwisko());
-//                }
-//            }
-//        }
+        for (Firma f : firmy) {
+            if (KCfirmy2.getSelectedItem().equals(f.getNazwa())) {
+                for (Kurier k : f.kurierzy) {
+                    KCkurierzy.addItem(k.getImie() + " " + k.getNazwisko());
+                }
+            }
+        }
 
+        KBposiadane = new JButton("Pokaż posiadane przesyłki");
+        KBposiadane.addActionListener(this);
+
+        KBdostarczone = new JButton("Pokaż dostarczone przesyłki");
+        KBdostarczone.addActionListener(this);
 
         panelKdodaj = new JPanel();
         panelKdodaj.setBounds(250, 0, 250, 250);
@@ -205,8 +214,11 @@ public class GUI implements ActionListener {
         panelK.setBounds(250, 250, 250, 250);
         panelK.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         panelK.setLayout(new GridLayout(0, 1));
+        panelK.add(KLwybierz);
         panelK.add(KCfirmy2);
         panelK.add(KCkurierzy);
+        panelK.add(KBposiadane);
+        panelK.add(KBdostarczone);
     }
     public void initPrzesylka() {
         PLdodaj = new JLabel("Dodaj paczkę do firmy");
@@ -369,6 +381,30 @@ public class GUI implements ActionListener {
                     KCkurierzy.removeAllItems();
                     for (Kurier k : f.kurierzy) {
                         KCkurierzy.addItem(k.getImie() + " " + k.getNazwisko());
+                    }
+                }
+            }
+        }
+    }
+    public void buttonKposiadane(ActionEvent e) {
+        if (e.getSource() == KBposiadane) {
+            String kurier = (String) KCkurierzy.getSelectedItem();
+            for (Firma f : firmy) {
+                for (Kurier k : f.kurierzy) {
+                    if (kurier.equals(k.getImie() + " " + k.getNazwisko())){
+                        k.drukujPosiadane();
+                    }
+                }
+            }
+        }
+    }
+    public void buttonKdostarczone(ActionEvent e) {
+        if (e.getSource() == KBdostarczone) {
+            String kurier = (String) KCkurierzy.getSelectedItem();
+            for (Firma f : firmy) {
+                for (Kurier k : f.kurierzy) {
+                    if (kurier.equals(k.getImie() + " " + k.getNazwisko())){
+                        k.drukujDostarczone();
                     }
                 }
             }

@@ -59,5 +59,13 @@ public class Program {
         firma3.dodajKuriera(k7);
         firma3.dodajKuriera(k8);
         firma3.dodajKuriera(k9);
+
+        firma2.przydzielPrzesylke(p1,k4);
+        firma2.przydzielPrzesylke(p2,k4);
+        firma2.przydzielPrzesylke(p3,k4);
+        firma2.przydzielPrzesylke(p4,k4);
+
+        k4.dostarcz(p1);
+        k4.dostarcz(p2);
     }
 }
