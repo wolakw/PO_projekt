@@ -1,8 +1,10 @@
 import java.time.LocalDate;
-
 public class Program {
     private static GUI gui;
-
+    public static void main(String[] args) {
+        dane(gui);
+        gui = new GUI();
+    }
     public static void dane(GUI g) {
         Firma firma1 = new Firma("Poczta Polska", LocalDate.of(1900, 12, 01), "Malinowa 101");
         Firma firma2 = new Firma("DPD", LocalDate.of(1940, 04, 10), "Kozacka 40");
@@ -23,6 +25,18 @@ public class Program {
         Przesylka p9 = new Przesylka(9);
         Przesylka p10 = new Przesylka(10);
 
+        Kurier k1 = new Kurier("Janusz","Polak",1);
+        Kurier k2 = new Kurier("Tadeusz","Gancarz",2);
+        Kurier k3 = new Kurier("Tomasz","Mąciel",3);
+
+        Kurier k4 = new Kurier("Filip","Trałka",1);
+        Kurier k5 = new Kurier("Przemysław","Maciej",2);
+        Kurier k6 = new Kurier("Konrad","Topol",3);
+
+        Kurier k7 = new Kurier("Marcin","Sobol",1);
+        Kurier k8 = new Kurier("Robert","Walczak",2);
+        Kurier k9 = new Kurier("Jan","Jeleń",3);
+
         firma2.dodajPrzesylke(p1);
         firma2.dodajPrzesylke(p2);
         firma2.dodajPrzesylke(p3);
@@ -33,9 +47,17 @@ public class Program {
         firma2.dodajPrzesylke(p8);
         firma2.dodajPrzesylke(p9);
         firma2.dodajPrzesylke(p10);
-    }
-    public static void main(String[] args) {
-        dane(gui);
-        gui = new GUI();
+
+        firma1.dodajKuriera(k1);
+        firma1.dodajKuriera(k2);
+        firma1.dodajKuriera(k3);
+
+        firma2.dodajKuriera(k4);
+        firma2.dodajKuriera(k5);
+        firma2.dodajKuriera(k6);
+
+        firma3.dodajKuriera(k7);
+        firma3.dodajKuriera(k8);
+        firma3.dodajKuriera(k9);
     }
 }

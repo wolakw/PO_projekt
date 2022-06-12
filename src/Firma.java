@@ -5,7 +5,7 @@ public class Firma {
     private String nazwa;
     private LocalDate dataZalozenia;
     private String adres;
-    private ArrayList<Kurier> kurierzy;
+    public ArrayList<Kurier> kurierzy;
     public ArrayList<Przesylka> przesylki;
 
     public String getNazwa() {
@@ -56,6 +56,21 @@ public class Firma {
 
         for(Przesylka p : przesylki) {
             System.out.println("Id przesylki: " + p.getId());
+        }
+    }
+
+    public void dodajKuriera(Kurier k) {
+        kurierzy.add(k);
+    }
+
+    public void pokazKurierow() {
+        System.out.println("\nKurierzy przypisani do firmy" + getNazwa() + ": ");
+
+        if (kurierzy.isEmpty())
+            System.out.println("Brak przypisanych kurierow");
+
+        for (Kurier k : kurierzy) {
+            System.out.println(k.getImie() + " " + k.getNazwisko() + " id(" + k.getId() + ")");
         }
     }
 

@@ -35,15 +35,13 @@ public class GUI implements ActionListener {
     private JButton PBdodaj;
 
     // Kurier -------------------------------
-    private  JLabel KLdodaj;
-    private  JLabel KLimie;
-    private  JTextField KTimie;
-    private  JLabel KLnazwisko;
-    private  JTextField KTnazwisko;
-    private  JLabel KLid;
-    private  JTextField KTid;
+    private JLabel KLdodaj;
+    private JLabel KLimie;
+    private JTextField KTimie;
+    private JLabel KLnazwisko;
+    private JTextField KTnazwisko;
     private JLabel KLfirmy;
-    private  JComboBox KCfirmy;
+    private JComboBox KCfirmy;
     private JButton KBdodaj;
 
     public static ArrayList<Firma> firmy = new ArrayList<>();
@@ -108,9 +106,6 @@ public class GUI implements ActionListener {
         KLnazwisko = new JLabel("Nazwisko");
         KTnazwisko = new JTextField();
 
-        KLid = new JLabel("ID");
-        KTid = new JTextField();
-
         KLfirmy = new JLabel("Firmy");
         KCfirmy = new JComboBox();
         for (Firma f : firmy) {
@@ -124,7 +119,7 @@ public class GUI implements ActionListener {
 
         // Firma -----------------------------------------------------------------------------
         panelF = new JPanel();
-        panelF.setBounds(0,0,250,250 );
+        panelF.setBounds(0, 0, 250, 400);
         //panelF.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
         panelF.setLayout(new GridLayout(0, 1));
 
@@ -149,7 +144,8 @@ public class GUI implements ActionListener {
 
         // Przesyłka -----------------------------------------------------------------------------------
         panelP = new JPanel();
-        panelP.setBounds(1000,0,250,250);
+        panelP.setBounds(1000, 0, 250, 250);
+        panelP.setLayout(new GridLayout(0, 1));
 
         panelP.add(PLdodaj);
         panelP.add(PLfirma);
@@ -158,7 +154,7 @@ public class GUI implements ActionListener {
 
         // Kurier ---------------------------------------------------------------------------------------------
         panelK = new JPanel();
-        panelK.setBounds(500,0,250,250);
+        panelK.setBounds(500, 0, 250, 250);
         panelK.setLayout(new GridLayout(0, 1));
 
         panelK.add(KLdodaj);
@@ -169,9 +165,6 @@ public class GUI implements ActionListener {
         panelK.add(KLnazwisko);
         panelK.add(KTnazwisko);
 
-        panelK.add(KLid);
-        panelK.add(KTid);
-
         panelK.add(KLfirmy);
         panelK.add(KCfirmy);
 
@@ -180,7 +173,7 @@ public class GUI implements ActionListener {
 
         // --------------------------------------------------------------------
         frame.setLayout(null);
-        frame.setSize(1250,1250);
+        frame.setSize(1250, 1250);
         frame.add(panelF, BorderLayout.CENTER);
         frame.add(panelK);
         frame.add(panelP);
@@ -195,24 +188,39 @@ public class GUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == FBdodajFirme) {
-            String nazwa = FTnazwa.getText();
-            String data = FTdata.getText();
-            String adres = FTadres.getText();
+        try {
+            if (e.getSource() == FBdodajFirme) {
+                String nazwa = FTnazwa.getText();
+                String data = FTdata.getText();
+                String adres = FTadres.getText();
 
-            String[] dataPodziel = data.split(",");
-            String rok = dataPodziel[0];
-            String miesiac = dataPodziel[1];
-            String dzien = dataPodziel[2];
+                if (nazwa == null || nazwa.isEmpty()){
+                    throw new Exception("Nie podano nazwy");
+                }
+                if (data == null || data.isEmpty()){
+                    throw new Exception("Nie podano daty");
+                }
+                if (adres == null || adres.isEmpty()){
+                    throw new Exception("Nie podano adresu");
+                }
 
-            Firma f = new Firma(nazwa, LocalDate.of(Integer.parseInt(rok), Integer.parseInt(miesiac), Integer.parseInt(dzien)), adres);
-            System.out.println("Dodano firme " + f.getNazwa());
-            firmy.add(f);
-            FCpokazFirme.addItem(f.getNazwa());
-            PCfirmy.addItem(f.getNazwa());
-            FTnazwa.setText("");
-            FTdata.setText("");
-            FTadres.setText("");
+                String[] dataPodziel = data.split(",");
+                String rok = dataPodziel[0];
+                String miesiac = dataPodziel[1];
+                String dzien = dataPodziel[2];
+
+                Firma f = new Firma(nazwa, LocalDate.of(Integer.parseInt(rok), Integer.parseInt(miesiac), Integer.parseInt(dzien)), adres);
+                System.out.println("Dodano firme " + f.getNazwa());
+                firmy.add(f);
+                FCpokazFirme.addItem(f.getNazwa());
+                PCfirmy.addItem(f.getNazwa());
+                KCfirmy.addItem(f.getNazwa());
+                FTnazwa.setText("");
+                FTdata.setText("");
+                FTadres.setText("");
+            }
+        } catch (Exception ex) {
+            System.out .println(ex.getMessage());
         }
 
         if (e.getSource() == FBpokazFirmy) {
@@ -237,19 +245,53 @@ public class GUI implements ActionListener {
             }
         }
 
-
         if (e.getSource() == FBusun) {
             String nazwa = FTusun.getText();
             for (Firma f : firmy) {
-                if (nazwa.equals(f.getNazwa())) {
+                if (nazwa.equalsIgnoreCase(f.getNazwa())) {
                     System.out.println("\nUsunięto firme " + f.getNazwa());
                     firmy.remove(f);
                     FCpokazFirme.removeItem(f.getNazwa());
                     PCfirmy.removeItem(f.getNazwa());
+                    KCfirmy.removeItem(f.getNazwa());
                     break;
                 }
                 FTusun.setText("");
             }
+        }
+
+        try {
+            if (e.getSource() == KBdodaj) {
+                String imie = KTimie.getText();
+                String nazwisko = KTnazwisko.getText();
+                int id = 0;
+
+                if (imie == null || imie.isEmpty()) {
+                    throw new Exception("Nie podano imienia");
+                }
+
+                if (nazwisko == null || nazwisko.isEmpty()) {
+                    throw new Exception("Nie podano nazwiska");
+                }
+
+                for (Firma f : firmy) {
+                    if (KCfirmy.getSelectedItem().equals(f.getNazwa())) {
+                        for (Kurier k : f.kurierzy) {
+                            if (k.getId() > id) {
+                                id = k.getId();
+                            }
+                        }
+                        Kurier k = new Kurier(imie, nazwisko, id + 1);
+                        f.kurierzy.add(k);
+                        System.out.println("\nDodano kuriera o id(" + k.getId() + ") do firmy " + f.getNazwa());
+                        f.pokazKurierow();
+                    }
+                }
+                KTimie.setText(" ");
+                KTnazwisko.setText(" ");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
 
         if (e.getSource() == PBdodaj) {
@@ -258,11 +300,11 @@ public class GUI implements ActionListener {
             for (Firma f : firmy) {
                 if (PCfirmy.getSelectedItem().equals(f.getNazwa())) {
                     for (Przesylka p : f.przesylki) {
-                        if (p.getId()>id) {
+                        if (p.getId() > id) {
                             id = p.getId();
                         }
                     }
-                    Przesylka p = new Przesylka(id+1);
+                    Przesylka p = new Przesylka(id + 1);
                     f.dodajPrzesylke(p);
                     System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
                     f.drukujPrzesylki();
