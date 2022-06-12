@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 public class GUI implements ActionListener {
     private JFrame frame;
-    private JPanel panel;
+    private JPanel panelF;
+    private JPanel panelK;
+    private JPanel panelP;
 
     // Firma ------------------
     private JLabel FLdodaj;
@@ -31,6 +33,18 @@ public class GUI implements ActionListener {
     private JLabel PLfirma;
     private JComboBox PCfirmy;
     private JButton PBdodaj;
+
+    // Kurier -------------------------------
+    private  JLabel KLdodaj;
+    private  JLabel KLimie;
+    private  JTextField KTimie;
+    private  JLabel KLnazwisko;
+    private  JTextField KTnazwisko;
+    private  JLabel KLid;
+    private  JTextField KTid;
+    private JLabel KLfirmy;
+    private  JComboBox KCfirmy;
+    private JButton KBdodaj;
 
     public static ArrayList<Firma> firmy = new ArrayList<>();
 
@@ -84,46 +98,98 @@ public class GUI implements ActionListener {
         PBdodaj = new JButton("Dodaj przesyłkę");
         PBdodaj.addActionListener(this);
 
-        // -----------------------------------------------------------------------
+        // Kurier -----------------------------------------------------------------------
+
+        KLdodaj = new JLabel("Dodaj Kuriera do firmy");
+
+        KLimie = new JLabel("Imię");
+        KTimie = new JTextField();
+
+        KLnazwisko = new JLabel("Nazwisko");
+        KTnazwisko = new JTextField();
+
+        KLid = new JLabel("ID");
+        KTid = new JTextField();
+
+        KLfirmy = new JLabel("Firmy");
+        KCfirmy = new JComboBox();
+        for (Firma f : firmy) {
+            KCfirmy.addItem(f.getNazwa());
+        }
+        KCfirmy.addActionListener(this);
+
+        KBdodaj = new JButton("Dodaj kuriera");
+        KBdodaj.addActionListener(this);
 
 
-        panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
-        panel.setLayout(new GridLayout(0, 1));
         // Firma -----------------------------------------------------------------------------
-        panel.add(FLdodaj);
-        panel.add(FLnazwa);
-        panel.add(FTnazwa);
-        panel.add(FLdata);
-        panel.add(FTdata);
-        panel.add(FLadres);
-        panel.add(FTadres);
-        panel.add(FBdodajFirme);
+        panelF = new JPanel();
+        panelF.setBounds(0,0,250,250 );
+        //panelF.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        panelF.setLayout(new GridLayout(0, 1));
 
-        panel.add(FLpokazFirme);
-        panel.add(FCpokazFirme);
+        panelF.add(FLdodaj);
+        panelF.add(FLnazwa);
+        panelF.add(FTnazwa);
+        panelF.add(FLdata);
+        panelF.add(FTdata);
+        panelF.add(FLadres);
+        panelF.add(FTadres);
+        panelF.add(FBdodajFirme);
 
-        panel.add(FLpokazFirmy);
-        panel.add(FBpokazFirmy);
+        panelF.add(FLpokazFirme);
+        panelF.add(FCpokazFirme);
 
-        panel.add(FLusun);
-        panel.add(FTusun);
-        panel.add(FBusun);
+        panelF.add(FLpokazFirmy);
+        panelF.add(FBpokazFirmy);
+
+        panelF.add(FLusun);
+        panelF.add(FTusun);
+        panelF.add(FBusun);
 
         // Przesyłka -----------------------------------------------------------------------------------
+        panelP = new JPanel();
+        panelP.setBounds(1000,0,250,250);
 
-        panel.add(PLdodaj);
-        panel.add(PLfirma);
-        panel.add(PCfirmy);
-        panel.add(PBdodaj);
+        panelP.add(PLdodaj);
+        panelP.add(PLfirma);
+        panelP.add(PCfirmy);
+        panelP.add(PBdodaj);
 
-        // ---------------------------------------------------------------------------------------------
+        // Kurier ---------------------------------------------------------------------------------------------
+        panelK = new JPanel();
+        panelK.setBounds(500,0,250,250);
+        panelK.setLayout(new GridLayout(0, 1));
 
-        frame.add(panel, BorderLayout.CENTER);
+        panelK.add(KLdodaj);
+
+        panelK.add(KLimie);
+        panelK.add(KTimie);
+
+        panelK.add(KLnazwisko);
+        panelK.add(KTnazwisko);
+
+        panelK.add(KLid);
+        panelK.add(KTid);
+
+        panelK.add(KLfirmy);
+        panelK.add(KCfirmy);
+
+        panelK.add(KBdodaj);
+
+
+        // --------------------------------------------------------------------
+        frame.setLayout(null);
+        frame.setSize(1250,1250);
+        frame.add(panelF, BorderLayout.CENTER);
+        frame.add(panelK);
+        frame.add(panelP);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLayout(null);
         frame.setTitle("System zarządzania firmami kurierskimi");
-        frame.pack();
+        //frame.pack();
         frame.setVisible(true);
+        // frame.add(panel2);
     }
 
     @Override

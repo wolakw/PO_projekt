@@ -2,7 +2,8 @@ import java.time.LocalDate;
 
 public class Program {
     private static GUI gui;
-    public static void main(String[] args) {
+
+    public static void dane(GUI g) {
         Firma firma1 = new Firma("Poczta Polska", LocalDate.of(1900, 12, 01), "Malinowa 101");
         Firma firma2 = new Firma("DPD", LocalDate.of(1940, 04, 10), "Kozacka 40");
         Firma firma3 = new Firma("Pocztex", LocalDate.of(1990, 10, 01), "Kwiatowa 10");
@@ -32,7 +33,9 @@ public class Program {
         firma2.dodajPrzesylke(p8);
         firma2.dodajPrzesylke(p9);
         firma2.dodajPrzesylke(p10);
-
+    }
+    public static void main(String[] args) {
+        dane(gui);
         gui = new GUI();
     }
 }
