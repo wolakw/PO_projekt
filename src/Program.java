@@ -37,6 +37,5 @@ public class Program {
     public static void main(String[] args) {
         dane(gui);
         gui = new GUI();
-        System.out.println("Hello");
     }
 }
