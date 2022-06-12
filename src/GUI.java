@@ -280,6 +280,18 @@ public class GUI implements ActionListener {
                 String miesiac = dataPodziel[1];
                 String dzien = dataPodziel[2];
 
+                if (rok.length() < 1 || rok.length() > 4) {
+                    throw new Exception("Błędna data");
+                }
+
+                if (miesiac.length() < 1 || miesiac.length() > 2 || Integer.parseInt(miesiac) < 1 || Integer.parseInt(miesiac) > 12) {
+                    throw new Exception("Błędna data");
+                }
+
+                if (dzien.length() < 1 || dzien.length() > 2 || Integer.parseInt(dzien) < 1 || Integer.parseInt(dzien) > 31) {
+                    throw new Exception("Błędna data");
+                }
+
                 Firma f = new Firma(nazwa, LocalDate.of(Integer.parseInt(rok), Integer.parseInt(miesiac), Integer.parseInt(dzien)), adres);
                 System.out.println("Dodano firme " + f.getNazwa());
                 firmy.add(f);
@@ -322,20 +334,35 @@ public class GUI implements ActionListener {
         }
     }
     public void buttonFusun(ActionEvent e) {
-        if (e.getSource() == FBusun) {
-            String nazwa = FTusun.getText();
-            for (Firma f : firmy) {
-                if (nazwa.equalsIgnoreCase(f.getNazwa())) {
-                    System.out.println("\nUsunięto firme " + f.getNazwa());
-                    firmy.remove(f);
-                    FCpokazFirme.removeItem(f.getNazwa());
-                    PCfirmy.removeItem(f.getNazwa());
-                    KCfirmy.removeItem(f.getNazwa());
-                    KCfirmy2.removeItem(f.getNazwa());
-                    break;
+        try {
+            if (e.getSource() == FBusun) {
+                String nazwa = FTusun.getText();
+
+                if(nazwa == null || nazwa.isEmpty()) {
+                    throw new Exception("Nie podano firmy");
                 }
-                FTusun.setText("");
+
+                boolean czyZnaleziono = false;
+                for (Firma f : firmy) {
+                    if (nazwa.equalsIgnoreCase(f.getNazwa())) {
+                        System.out.println("\nUsunięto firme " + f.getNazwa());
+                        firmy.remove(f);
+                        FCpokazFirme.removeItem(f.getNazwa());
+                        PCfirmy.removeItem(f.getNazwa());
+                        KCfirmy.removeItem(f.getNazwa());
+                        KCfirmy2.removeItem(f.getNazwa());
+                        czyZnaleziono = true;
+                        break;
+                    }
+                    FTusun.setText("");
+                }
+
+                if (!czyZnaleziono) {
+                    throw new Exception("Brak firmy w systemie");
+                }
             }
+        }catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
     }
     public void buttonKdodaj(ActionEvent e) {
