@@ -46,14 +46,33 @@ public class GUI implements ActionListener {
     private JLabel KLfirmy;
     private JComboBox KCfirmy;
     private JButton KBdodaj;
-
     public static ArrayList<Firma> firmy = new ArrayList<>();
 
     public GUI() {
-        frame = new JFrame();
+        initFirma();
 
-        // Firma -------------------------------------------------------
+        initKurier();
 
+        initPrzesylka();
+
+        initFrame();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        buttonFdodaj(e);
+
+        buttonFpokaz(e);
+
+        buttonFpokaz1(e);
+
+        buttonFusun(e);
+
+        buttonKdodaj(e);
+
+        buttonPdodaj(e);
+    }
+    public void initFirma() {
         FLdodaj = new JLabel("Dodaj firmę");
         FLnazwa = new JLabel("Nazwa");
         FTnazwa = new JTextField();
@@ -120,9 +139,8 @@ public class GUI implements ActionListener {
         panelFusun.add(FLusun);
         panelFusun.add(FTusun);
         panelFusun.add(FBusun);
-
-        // Kurier -----------------------------------------------------------------------
-
+    }
+    public void initKurier() {
         KLdodaj = new JLabel("Dodaj Kuriera do firmy");
 
         KLimie = new JLabel("Imię");
@@ -159,9 +177,8 @@ public class GUI implements ActionListener {
         panelKdodaj.add(KCfirmy);
 
         panelKdodaj.add(KBdodaj);
-
-        // Przesyłka --------------------------------------------------------------
-
+    }
+    public void initPrzesylka() {
         PLdodaj = new JLabel("Dodaj paczkę do firmy");
 
         PLfirma = new JLabel("Firma do, której przydzielana jest paczka");
@@ -174,7 +191,6 @@ public class GUI implements ActionListener {
         PBdodaj = new JButton("Dodaj przesyłkę");
         PBdodaj.addActionListener(this);
 
-
         panelP = new JPanel();
         panelP.setBounds(250, 0, 250, 250);
         panelP.setBorder(BorderFactory.createEmptyBorder(30, 15, 15, 15));
@@ -184,10 +200,9 @@ public class GUI implements ActionListener {
         panelP.add(PLfirma);
         panelP.add(PCfirmy);
         panelP.add(PBdodaj);
-
-
-        // Frame --------------------------------------------------------------------
-
+    }
+    public void initFrame() {
+        frame = new JFrame();
         frame.setLayout(null);
         frame.setSize(750, 750);
         frame.add(panelFdodaj);
@@ -200,30 +215,7 @@ public class GUI implements ActionListener {
         //frame.pack();
         frame.setVisible(true);
     }
-
-
-    public void buttonPdodaj() {
-        int id = 0;
-
-        for (Firma f : firmy) {
-            if (PCfirmy.getSelectedItem().equals(f.getNazwa())) {
-                for (Przesylka p : f.przesylki) {
-                    if (p.getId() > id) {
-                        id = p.getId();
-                    }
-                }
-                Przesylka p = new Przesylka(id + 1);
-                f.dodajPrzesylke(p);
-                System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
-                f.drukujPrzesylki();
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void buttonFdodaj(ActionEvent e) {
         try {
             if (e.getSource() == FBdodajFirme) {
                 String nazwa = FTnazwa.getText();
@@ -258,7 +250,8 @@ public class GUI implements ActionListener {
         } catch (Exception ex) {
             System.out .println(ex.getMessage());
         }
-
+    }
+    public void buttonFpokaz(ActionEvent e) {
         if (e.getSource() == FBpokazFirmy) {
             System.out.println("\nLista firm: ");
 
@@ -269,7 +262,8 @@ public class GUI implements ActionListener {
                 System.out.println(f.toString());
             }
         }
-
+    }
+    public void buttonFpokaz1(ActionEvent e) {
         if (e.getSource() == FCpokazFirme) {
             String nazwa = (String) FCpokazFirme.getSelectedItem();
             for (Firma f : firmy) {
@@ -280,7 +274,8 @@ public class GUI implements ActionListener {
                 }
             }
         }
-
+    }
+    public void buttonFusun(ActionEvent e) {
         if (e.getSource() == FBusun) {
             String nazwa = FTusun.getText();
             for (Firma f : firmy) {
@@ -295,7 +290,8 @@ public class GUI implements ActionListener {
                 FTusun.setText("");
             }
         }
-
+    }
+    public void buttonKdodaj(ActionEvent e) {
         try {
             if (e.getSource() == KBdodaj) {
                 String imie = KTimie.getText();
@@ -329,29 +325,25 @@ public class GUI implements ActionListener {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
-
+    }
+    public void buttonPdodaj(ActionEvent e) {
         if (e.getSource() == PBdodaj) {
-            buttonPdodaj();
-        }
+            int id = 0;
 
-//        if (e.getSource() == PBdodaj) {
-//            int id = 0;
-//
-//            for (Firma f : firmy) {
-//                if (PCfirmy.getSelectedItem().equals(f.getNazwa())) {
-//                    for (Przesylka p : f.przesylki) {
-//                        if (p.getId() > id) {
-//                            id = p.getId();
-//                        }
-//                    }
-//                    Przesylka p = new Przesylka(id + 1);
-//                    f.dodajPrzesylke(p);
-//                    System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
-//                    f.drukujPrzesylki();
-//                    break;
-//                }
-//            }
-//        }
+            for (Firma f : firmy) {
+                if (PCfirmy.getSelectedItem().equals(f.getNazwa())) {
+                    for (Przesylka p : f.przesylki) {
+                        if (p.getId() > id) {
+                            id = p.getId();
+                        }
+                    }
+                    Przesylka p = new Przesylka(id + 1);
+                    f.dodajPrzesylke(p);
+                    System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
+                    f.drukujPrzesylki();
+                    break;
+                }
+            }
+        }
     }
 }
