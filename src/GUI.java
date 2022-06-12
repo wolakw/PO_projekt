@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class GUI implements ActionListener {
     private JFrame frame;
-    private JPanel panelF;
-    private JPanel panelK;
-    private JPanel panelP;
 
     // Firma ------------------
+    private JPanel panelFdodaj;
+    private JPanel panelFpokaz;
+    private JPanel panelFusun;
     private JLabel FLdodaj;
     private JLabel FLnazwa;
     private JTextField FTnazwa;
@@ -29,12 +29,15 @@ public class GUI implements ActionListener {
     private JButton FBusun;
 
     // Przesyłka ------------------------
+    private JPanel panelP;
     private JLabel PLdodaj;
     private JLabel PLfirma;
     private JComboBox PCfirmy;
     private JButton PBdodaj;
 
     // Kurier -------------------------------
+    private JPanel panelKdodaj;
+    private JPanel panelK;
     private JLabel KLdodaj;
     private JLabel KLimie;
     private JTextField KTimie;
@@ -50,6 +53,7 @@ public class GUI implements ActionListener {
         frame = new JFrame();
 
         // Firma -------------------------------------------------------
+
         FLdodaj = new JLabel("Dodaj firmę");
         FLnazwa = new JLabel("Nazwa");
         FTnazwa = new JTextField();
@@ -82,19 +86,40 @@ public class GUI implements ActionListener {
         FBusun = new JButton("Usuń firmę");
         FBusun.addActionListener(this);
 
-        // Przesyłka --------------------------------------------------------------
 
-        PLdodaj = new JLabel("Dodaj paczkę do firmy");
+        panelFdodaj = new JPanel();
+        panelFdodaj.setBounds(0, 0, 250, 250);
+        panelFdodaj.setBorder(BorderFactory.createEmptyBorder(30, 30, 15, 15));
+        panelFdodaj.setLayout(new GridLayout(0, 1));
 
-        PLfirma = new JLabel("Firma do, której przydzielana jest paczka");
-        PCfirmy = new JComboBox();
-        for (Firma f : firmy) {
-            PCfirmy.addItem(f.getNazwa());
-        }
-        PCfirmy.addActionListener(this);
+        panelFdodaj.add(FLdodaj);
+        panelFdodaj.add(FLnazwa);
+        panelFdodaj.add(FTnazwa);
+        panelFdodaj.add(FLdata);
+        panelFdodaj.add(FTdata);
+        panelFdodaj.add(FLadres);
+        panelFdodaj.add(FTadres);
+        panelFdodaj.add(FBdodajFirme);
 
-        PBdodaj = new JButton("Dodaj przesyłkę");
-        PBdodaj.addActionListener(this);
+        panelFpokaz = new JPanel();
+        panelFpokaz.setBounds(0,250,250,250);
+        panelFpokaz.setBorder(BorderFactory.createEmptyBorder(15,30,15,15));
+        panelFpokaz.setLayout(new GridLayout(0,1));
+
+        panelFpokaz.add(FLpokazFirme);
+        panelFpokaz.add(FCpokazFirme);
+
+        panelFpokaz.add(FLpokazFirmy);
+        panelFpokaz.add(FBpokazFirmy);
+
+        panelFusun = new JPanel();
+        panelFusun.setBounds(0,500,250,250);
+        panelFusun.setBorder(BorderFactory.createEmptyBorder(15,30,30,15));
+        panelFusun.setLayout(new GridLayout(0,1));
+
+        panelFusun.add(FLusun);
+        panelFusun.add(FTusun);
+        panelFusun.add(FBusun);
 
         // Kurier -----------------------------------------------------------------------
 
@@ -117,34 +142,42 @@ public class GUI implements ActionListener {
         KBdodaj.addActionListener(this);
 
 
-        // Firma -----------------------------------------------------------------------------
-        panelF = new JPanel();
-        panelF.setBounds(0, 0, 250, 400);
-        //panelF.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
-        panelF.setLayout(new GridLayout(0, 1));
+        panelKdodaj = new JPanel();
+        panelKdodaj.setBounds(500, 0, 250, 250);
+        panelKdodaj.setBorder(BorderFactory.createEmptyBorder(30, 15, 15, 30));
+        panelKdodaj.setLayout(new GridLayout(0, 1));
 
-        panelF.add(FLdodaj);
-        panelF.add(FLnazwa);
-        panelF.add(FTnazwa);
-        panelF.add(FLdata);
-        panelF.add(FTdata);
-        panelF.add(FLadres);
-        panelF.add(FTadres);
-        panelF.add(FBdodajFirme);
+        panelKdodaj.add(KLdodaj);
 
-        panelF.add(FLpokazFirme);
-        panelF.add(FCpokazFirme);
+        panelKdodaj.add(KLimie);
+        panelKdodaj.add(KTimie);
 
-        panelF.add(FLpokazFirmy);
-        panelF.add(FBpokazFirmy);
+        panelKdodaj.add(KLnazwisko);
+        panelKdodaj.add(KTnazwisko);
 
-        panelF.add(FLusun);
-        panelF.add(FTusun);
-        panelF.add(FBusun);
+        panelKdodaj.add(KLfirmy);
+        panelKdodaj.add(KCfirmy);
 
-        // Przesyłka -----------------------------------------------------------------------------------
+        panelKdodaj.add(KBdodaj);
+
+        // Przesyłka --------------------------------------------------------------
+
+        PLdodaj = new JLabel("Dodaj paczkę do firmy");
+
+        PLfirma = new JLabel("Firma do, której przydzielana jest paczka");
+        PCfirmy = new JComboBox();
+        for (Firma f : firmy) {
+            PCfirmy.addItem(f.getNazwa());
+        }
+        PCfirmy.addActionListener(this);
+
+        PBdodaj = new JButton("Dodaj przesyłkę");
+        PBdodaj.addActionListener(this);
+
+
         panelP = new JPanel();
-        panelP.setBounds(1000, 0, 250, 250);
+        panelP.setBounds(250, 0, 250, 250);
+        panelP.setBorder(BorderFactory.createEmptyBorder(30, 15, 15, 15));
         panelP.setLayout(new GridLayout(0, 1));
 
         panelP.add(PLdodaj);
@@ -152,37 +185,40 @@ public class GUI implements ActionListener {
         panelP.add(PCfirmy);
         panelP.add(PBdodaj);
 
-        // Kurier ---------------------------------------------------------------------------------------------
-        panelK = new JPanel();
-        panelK.setBounds(500, 0, 250, 250);
-        panelK.setLayout(new GridLayout(0, 1));
 
-        panelK.add(KLdodaj);
+        // Frame --------------------------------------------------------------------
 
-        panelK.add(KLimie);
-        panelK.add(KTimie);
-
-        panelK.add(KLnazwisko);
-        panelK.add(KTnazwisko);
-
-        panelK.add(KLfirmy);
-        panelK.add(KCfirmy);
-
-        panelK.add(KBdodaj);
-
-
-        // --------------------------------------------------------------------
         frame.setLayout(null);
-        frame.setSize(1250, 1250);
-        frame.add(panelF, BorderLayout.CENTER);
-        frame.add(panelK);
+        frame.setSize(750, 750);
+        frame.add(panelFdodaj);
+        frame.add(panelFpokaz);
+        frame.add(panelFusun);
+        frame.add(panelKdodaj);
         frame.add(panelP);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.setLayout(null);
         frame.setTitle("System zarządzania firmami kurierskimi");
         //frame.pack();
         frame.setVisible(true);
-        // frame.add(panel2);
+    }
+
+
+    public void buttonPdodaj() {
+        int id = 0;
+
+        for (Firma f : firmy) {
+            if (PCfirmy.getSelectedItem().equals(f.getNazwa())) {
+                for (Przesylka p : f.przesylki) {
+                    if (p.getId() > id) {
+                        id = p.getId();
+                    }
+                }
+                Przesylka p = new Przesylka(id + 1);
+                f.dodajPrzesylke(p);
+                System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
+                f.drukujPrzesylki();
+                break;
+            }
+        }
     }
 
     @Override
@@ -294,23 +330,28 @@ public class GUI implements ActionListener {
             System.out.println(ex.getMessage());
         }
 
-        if (e.getSource() == PBdodaj) {
-            int id = 0;
 
-            for (Firma f : firmy) {
-                if (PCfirmy.getSelectedItem().equals(f.getNazwa())) {
-                    for (Przesylka p : f.przesylki) {
-                        if (p.getId() > id) {
-                            id = p.getId();
-                        }
-                    }
-                    Przesylka p = new Przesylka(id + 1);
-                    f.dodajPrzesylke(p);
-                    System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
-                    f.drukujPrzesylki();
-                    break;
-                }
-            }
+        if (e.getSource() == PBdodaj) {
+            buttonPdodaj();
         }
+
+//        if (e.getSource() == PBdodaj) {
+//            int id = 0;
+//
+//            for (Firma f : firmy) {
+//                if (PCfirmy.getSelectedItem().equals(f.getNazwa())) {
+//                    for (Przesylka p : f.przesylki) {
+//                        if (p.getId() > id) {
+//                            id = p.getId();
+//                        }
+//                    }
+//                    Przesylka p = new Przesylka(id + 1);
+//                    f.dodajPrzesylke(p);
+//                    System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
+//                    f.drukujPrzesylki();
+//                    break;
+//                }
+//            }
+//        }
     }
 }
