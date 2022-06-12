@@ -64,7 +64,7 @@ public class Firma {
     }
 
     public void pokazKurierow() {
-        System.out.println("\nKurierzy przypisani do firmy" + getNazwa() + ": ");
+        System.out.println("\nKurierzy przypisani do firmy " + getNazwa() + ": ");
 
         if (kurierzy.isEmpty())
             System.out.println("Brak przypisanych kurierow");

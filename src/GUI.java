@@ -28,13 +28,6 @@ public class GUI implements ActionListener {
     private JTextField FTusun;
     private JButton FBusun;
 
-    // Przesyłka ------------------------
-    private JPanel panelP;
-    private JLabel PLdodaj;
-    private JLabel PLfirma;
-    private JComboBox PCfirmy;
-    private JButton PBdodaj;
-
     // Kurier -------------------------------
     private JPanel panelKdodaj;
     private JPanel panelK;
@@ -46,6 +39,17 @@ public class GUI implements ActionListener {
     private JLabel KLfirmy;
     private JComboBox KCfirmy;
     private JButton KBdodaj;
+    private JComboBox KCfirmy2;
+    private JComboBox KCkurierzy;
+    private JButton KBposiadane;
+    private JButton KBdostarczone;
+
+    // Przesyłka ------------------------
+    private JPanel panelP;
+    private JLabel PLdodaj;
+    private JLabel PLfirma;
+    private JComboBox PCfirmy;
+    private JButton PBdodaj;
     public static ArrayList<Firma> firmy = new ArrayList<>();
 
     public GUI() {
@@ -70,6 +74,8 @@ public class GUI implements ActionListener {
 
         buttonKdodaj(e);
 
+        buttonKfirmy(e);
+
         buttonPdodaj(e);
     }
     public void initFirma() {
@@ -89,16 +95,16 @@ public class GUI implements ActionListener {
         FBdodajFirme = new JButton("Dodaj firmę");
         FBdodajFirme.addActionListener(this);
 
+        FLpokazFirmy = new JLabel("Pokaż liste wszytkich firm");
+        FBpokazFirmy = new JButton("Pokaż liste firm");
+        FBpokazFirmy.addActionListener(this);
+
         FLpokazFirme = new JLabel("Pokaż dane firmy, wybierz z listy");
         FCpokazFirme = new JComboBox();
         for (Firma f : firmy) {
             FCpokazFirme.addItem(f.getNazwa());
         }
         FCpokazFirme.addActionListener(this);
-
-        FLpokazFirmy = new JLabel("Pokaż dane wszytkich firm");
-        FBpokazFirmy = new JButton("Pokaż dane firm");
-        FBpokazFirmy.addActionListener(this);
 
         FLusun = new JLabel("Usuń firmę, wprowadź nazwę");
         FTusun = new JTextField();
@@ -125,11 +131,11 @@ public class GUI implements ActionListener {
         panelFpokaz.setBorder(BorderFactory.createEmptyBorder(15,30,15,15));
         panelFpokaz.setLayout(new GridLayout(0,1));
 
-        panelFpokaz.add(FLpokazFirme);
-        panelFpokaz.add(FCpokazFirme);
-
         panelFpokaz.add(FLpokazFirmy);
         panelFpokaz.add(FBpokazFirmy);
+
+        panelFpokaz.add(FLpokazFirme);
+        panelFpokaz.add(FCpokazFirme);
 
         panelFusun = new JPanel();
         panelFusun.setBounds(0,500,250,250);
@@ -159,10 +165,27 @@ public class GUI implements ActionListener {
         KBdodaj = new JButton("Dodaj kuriera");
         KBdodaj.addActionListener(this);
 
+        KCfirmy2 = new JComboBox();
+        for (Firma f : firmy) {
+            KCfirmy2.addItem(f.getNazwa());
+        }
+        KCfirmy2.addActionListener(this);
+
+        KCkurierzy = new JComboBox();
+        //KCkurierzy.addItem("kupa");
+//        for (Firma f : firmy) {
+//            if (KCfirmy2.getSelectedItem().equals(f.getNazwa())) {
+//                KCkurierzy.removeAllItems();
+//                for (Kurier k : f.kurierzy) {
+//                    KCkurierzy.addItem(k.getImie() + " " + k.getNazwisko());
+//                }
+//            }
+//        }
+
 
         panelKdodaj = new JPanel();
-        panelKdodaj.setBounds(500, 0, 250, 250);
-        panelKdodaj.setBorder(BorderFactory.createEmptyBorder(30, 15, 15, 30));
+        panelKdodaj.setBounds(250, 0, 250, 250);
+        panelKdodaj.setBorder(BorderFactory.createEmptyBorder(30, 15, 15, 15));
         panelKdodaj.setLayout(new GridLayout(0, 1));
 
         panelKdodaj.add(KLdodaj);
@@ -177,6 +200,13 @@ public class GUI implements ActionListener {
         panelKdodaj.add(KCfirmy);
 
         panelKdodaj.add(KBdodaj);
+
+        panelK = new JPanel();
+        panelK.setBounds(250, 250, 250, 250);
+        panelK.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        panelK.setLayout(new GridLayout(0, 1));
+        panelK.add(KCfirmy2);
+        panelK.add(KCkurierzy);
     }
     public void initPrzesylka() {
         PLdodaj = new JLabel("Dodaj paczkę do firmy");
@@ -192,8 +222,8 @@ public class GUI implements ActionListener {
         PBdodaj.addActionListener(this);
 
         panelP = new JPanel();
-        panelP.setBounds(250, 0, 250, 250);
-        panelP.setBorder(BorderFactory.createEmptyBorder(30, 15, 15, 15));
+        panelP.setBounds(500, 0, 250, 250);
+        panelP.setBorder(BorderFactory.createEmptyBorder(30, 15, 15, 30));
         panelP.setLayout(new GridLayout(0, 1));
 
         panelP.add(PLdodaj);
@@ -209,6 +239,7 @@ public class GUI implements ActionListener {
         frame.add(panelFpokaz);
         frame.add(panelFusun);
         frame.add(panelKdodaj);
+        frame.add(panelK);
         frame.add(panelP);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("System zarządzania firmami kurierskimi");
@@ -243,6 +274,7 @@ public class GUI implements ActionListener {
                 FCpokazFirme.addItem(f.getNazwa());
                 PCfirmy.addItem(f.getNazwa());
                 KCfirmy.addItem(f.getNazwa());
+                KCfirmy2.addItem(f.getNazwa());
                 FTnazwa.setText("");
                 FTdata.setText("");
                 FTadres.setText("");
@@ -270,6 +302,8 @@ public class GUI implements ActionListener {
                 if (nazwa.equals(f.getNazwa())) {
                     System.out.println("\nDane dla firmy " + f.getNazwa() + ":");
                     System.out.println(f.toString());
+                    f.pokazKurierow();
+                    f.drukujPrzesylki();
                     break;
                 }
             }
@@ -285,6 +319,7 @@ public class GUI implements ActionListener {
                     FCpokazFirme.removeItem(f.getNazwa());
                     PCfirmy.removeItem(f.getNazwa());
                     KCfirmy.removeItem(f.getNazwa());
+                    KCfirmy2.removeItem(f.getNazwa());
                     break;
                 }
                 FTusun.setText("");
@@ -324,6 +359,19 @@ public class GUI implements ActionListener {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        }
+    }
+    public void buttonKfirmy(ActionEvent e) {
+        if (e.getSource() == KCfirmy2) {
+            String nazwa = (String) KCfirmy2.getSelectedItem();
+            for (Firma f : firmy) {
+                if (nazwa.equals(f.getNazwa())) {
+                    KCkurierzy.removeAllItems();
+                    for (Kurier k : f.kurierzy) {
+                        KCkurierzy.addItem(k.getImie() + " " + k.getNazwisko());
+                    }
+                }
+            }
         }
     }
     public void buttonPdodaj(ActionEvent e) {
