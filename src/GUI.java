@@ -44,6 +44,12 @@ public class GUI implements ActionListener {
     private JComboBox KCkurierzy;
     private JButton KBposiadane;
     private JButton KBdostarczone;
+    private JLabel KLprzesWFirm;
+    private JComboBox KCpaczkiF;
+    private JButton KBprzydziel;
+    private JLabel KLdostarcz;
+    private JTextField KTdostarcz;
+    private JButton KBdostarcz;
 
     // Przesyłka ------------------------
     private JPanel panelP;
@@ -80,6 +86,8 @@ public class GUI implements ActionListener {
         buttonKposiadane(e);
 
         buttonKdostarczone(e);
+
+        buttonKprzydziel(e);
 
         buttonPdodaj(e);
     }
@@ -185,12 +193,30 @@ public class GUI implements ActionListener {
                 }
             }
         }
+        KCkurierzy.addActionListener(this);
 
         KBposiadane = new JButton("Pokaż posiadane przesyłki");
         KBposiadane.addActionListener(this);
 
         KBdostarczone = new JButton("Pokaż dostarczone przesyłki");
         KBdostarczone.addActionListener(this);
+
+        KLprzesWFirm = new JLabel("Przesyłki w firmie");
+        KCpaczkiF = new JComboBox<>();
+        for (Firma f : firmy) {
+            if (KCfirmy2.getSelectedItem().equals(f.getNazwa())) {
+                for (Przesylka p : f.przesylki) {
+                    KCpaczkiF.addItem("Przesyłka id(" + p.getId() + ")");
+                }
+            }
+        }
+        KBprzydziel = new JButton("Przydziel przesyłkę do kuriera");
+        KBprzydziel.addActionListener(this);
+
+        KLdostarcz = new JLabel("Wpisz id przesyłek do dostraczenia");
+        KTdostarcz = new JTextField();
+        KBdostarcz = new JButton("Dostarcz przesyłkę");
+        KBdostarcz.addActionListener(this);
 
         panelKdodaj = new JPanel();
         panelKdodaj.setBounds(250, 0, 250, 250);
@@ -211,14 +237,22 @@ public class GUI implements ActionListener {
         panelKdodaj.add(KBdodaj);
 
         panelK = new JPanel();
-        panelK.setBounds(250, 250, 250, 250);
-        panelK.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        panelK.setBounds(250, 250, 250, 500);
+        panelK.setBorder(BorderFactory.createEmptyBorder(15, 15, 30, 15));
         panelK.setLayout(new GridLayout(0, 1));
         panelK.add(KLwybierz);
         panelK.add(KCfirmy2);
         panelK.add(KCkurierzy);
         panelK.add(KBposiadane);
         panelK.add(KBdostarczone);
+
+        panelK.add((KLprzesWFirm));
+        panelK.add(KCpaczkiF);
+        panelK.add(KBprzydziel);
+
+        panelK.add(KLdostarcz);
+        panelK.add(KTdostarcz);
+        panelK.add(KBdostarcz);
     }
     public void initPrzesylka() {
         PLdodaj = new JLabel("Dodaj paczkę do firmy");
@@ -266,13 +300,13 @@ public class GUI implements ActionListener {
                 String adres = FTadres.getText();
 
                 if (nazwa == null || nazwa.isEmpty()){
-                    throw new Exception("Nie podano nazwy");
+                    throw new IllegalArgumentException("Nie podano nazwy");
                 }
                 if (data == null || data.isEmpty()){
-                    throw new Exception("Nie podano daty");
+                    throw new IllegalArgumentException("Nie podano daty");
                 }
                 if (adres == null || adres.isEmpty()){
-                    throw new Exception("Nie podano adresu");
+                    throw new IllegalArgumentException("Nie podano adresu");
                 }
 
                 String[] dataPodziel = data.split(",");
@@ -281,15 +315,15 @@ public class GUI implements ActionListener {
                 String dzien = dataPodziel[2];
 
                 if (rok.length() < 1 || rok.length() > 4) {
-                    throw new Exception("Błędna data");
+                    throw new IllegalArgumentException("Błędna data");
                 }
 
                 if (miesiac.length() < 1 || miesiac.length() > 2 || Integer.parseInt(miesiac) < 1 || Integer.parseInt(miesiac) > 12) {
-                    throw new Exception("Błędna data");
+                    throw new IllegalArgumentException("Błędna data");
                 }
 
                 if (dzien.length() < 1 || dzien.length() > 2 || Integer.parseInt(dzien) < 1 || Integer.parseInt(dzien) > 31) {
-                    throw new Exception("Błędna data");
+                    throw new IllegalArgumentException("Błędna data");
                 }
 
                 Firma f = new Firma(nazwa, LocalDate.of(Integer.parseInt(rok), Integer.parseInt(miesiac), Integer.parseInt(dzien)), adres);
@@ -303,8 +337,10 @@ public class GUI implements ActionListener {
                 FTdata.setText("");
                 FTadres.setText("");
             }
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             System.out .println(ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println("Błedna data");
         }
     }
     public void buttonFpokaz(ActionEvent e) {
@@ -351,10 +387,10 @@ public class GUI implements ActionListener {
                         PCfirmy.removeItem(f.getNazwa());
                         KCfirmy.removeItem(f.getNazwa());
                         KCfirmy2.removeItem(f.getNazwa());
+                        FTusun.setText("");
                         czyZnaleziono = true;
                         break;
                     }
-                    FTusun.setText("");
                 }
 
                 if (!czyZnaleziono) {
@@ -389,12 +425,11 @@ public class GUI implements ActionListener {
                         }
                         Kurier k = new Kurier(imie, nazwisko, id + 1);
                         f.kurierzy.add(k);
-                        System.out.println("\nDodano kuriera o id(" + k.getId() + ") do firmy " + f.getNazwa());
-                        f.pokazKurierow();
+                        System.out.println("Dodano kuriera o id(" + k.getId() + ") do firmy " + f.getNazwa());
                     }
                 }
-                KTimie.setText(" ");
-                KTnazwisko.setText(" ");
+                KTimie.setText("");
+                KTnazwisko.setText("");
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -408,6 +443,11 @@ public class GUI implements ActionListener {
                     KCkurierzy.removeAllItems();
                     for (Kurier k : f.kurierzy) {
                         KCkurierzy.addItem(k.getImie() + " " + k.getNazwisko());
+                    }
+
+                    KCpaczkiF.removeAllItems();
+                    for (Przesylka p : f.przesylki) {
+                        KCpaczkiF.addItem("Przesyłka id(" + p.getId() + ")");
                     }
                 }
             }
@@ -437,6 +477,29 @@ public class GUI implements ActionListener {
             }
         }
     }
+    public void buttonKprzydziel(ActionEvent e) {
+        if (e.getSource() == KBprzydziel) {
+            String firma = (String) KCfirmy2.getSelectedItem();
+            String kurier = (String) KCkurierzy.getSelectedItem();
+            String id = (String) KCpaczkiF.getSelectedItem();
+            for (Firma f : firmy) {
+                if (firma.equals(f.getNazwa())) {
+                    for (Kurier k : f.kurierzy) {
+                        if (kurier.equals(k.getImie() + " " + k.getNazwisko())) {
+                            for (Przesylka p : f.przesylki) {
+                                if (id.equals("Przesyłka id(" + p.getId() + ")")) {
+                                    f.przydzielPrzesylke(p, k);
+                                    KCpaczkiF.removeItem("Przesyłka id(" + p.getId() + ")");
+                                    System.out.println("Przypisano przesyłkę o id(" + p.getId() + ") z firmy " + f.getNazwa() + " do kuriera " + k.getImie() + " " + k.getNazwisko());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     public void buttonPdodaj(ActionEvent e) {
         if (e.getSource() == PBdodaj) {
             int id = 0;
@@ -450,11 +513,11 @@ public class GUI implements ActionListener {
                     }
                     Przesylka p = new Przesylka(id + 1);
                     f.dodajPrzesylke(p);
-                    System.out.println("\nDodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
-                    f.drukujPrzesylki();
+                    System.out.println("Dodano przesyłkę o id(" + p.getId() + ") do firmy " + f.getNazwa());
                     break;
                 }
             }
         }
     }
 }
+

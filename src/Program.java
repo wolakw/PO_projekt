@@ -37,6 +37,17 @@ public class Program {
         Kurier k8 = new Kurier("Robert","Walczak",2);
         Kurier k9 = new Kurier("Jan","Jeleń",3);
 
+        firma1.dodajPrzesylke(p1);
+        firma1.dodajPrzesylke(p2);
+        firma1.dodajPrzesylke(p3);
+        firma1.dodajPrzesylke(p4);
+        firma1.dodajPrzesylke(p5);
+        firma1.dodajPrzesylke(p6);
+        firma1.dodajPrzesylke(p7);
+        firma1.dodajPrzesylke(p8);
+        firma1.dodajPrzesylke(p9);
+        firma1.dodajPrzesylke(p10);
+
         firma2.dodajPrzesylke(p1);
         firma2.dodajPrzesylke(p2);
         firma2.dodajPrzesylke(p3);
@@ -47,6 +58,17 @@ public class Program {
         firma2.dodajPrzesylke(p8);
         firma2.dodajPrzesylke(p9);
         firma2.dodajPrzesylke(p10);
+
+        firma3.dodajPrzesylke(p1);
+        firma3.dodajPrzesylke(p2);
+        firma3.dodajPrzesylke(p3);
+        firma3.dodajPrzesylke(p4);
+        firma3.dodajPrzesylke(p5);
+        firma3.dodajPrzesylke(p6);
+        firma3.dodajPrzesylke(p7);
+        firma3.dodajPrzesylke(p8);
+        firma3.dodajPrzesylke(p9);
+        firma3.dodajPrzesylke(p10);
 
         firma1.dodajKuriera(k1);
         firma1.dodajKuriera(k2);
