@@ -57,6 +57,11 @@ public class GUI implements ActionListener {
     private JLabel PLfirma;
     private JComboBox PCfirmy;
     private JButton PBdodaj;
+
+    // Zapis ---------------------------
+    private JPanel panelZ;
+    private JLabel ZLzapisz;
+    private JButton ZBzapisz;
     public static ArrayList<Firma> firmy = new ArrayList<>();
 
     public GUI() {
@@ -65,6 +70,8 @@ public class GUI implements ActionListener {
         initKurier();
 
         initPrzesylka();
+
+        initZapis();
 
         initFrame();
     }
@@ -89,7 +96,11 @@ public class GUI implements ActionListener {
 
         buttonKprzydziel(e);
 
+        buttonKdostarcz(e);
+
         buttonPdodaj(e);
+
+        buttonZapis(e);
     }
     public void initFirma() {
         FLdodaj = new JLabel("Dodaj firmę");
@@ -213,7 +224,7 @@ public class GUI implements ActionListener {
         KBprzydziel = new JButton("Przydziel przesyłkę do kuriera");
         KBprzydziel.addActionListener(this);
 
-        KLdostarcz = new JLabel("Wpisz id przesyłek do dostraczenia");
+        KLdostarcz = new JLabel("Id paczek wprowadzane po spacji");
         KTdostarcz = new JTextField();
         KBdostarcz = new JButton("Dostarcz przesyłkę");
         KBdostarcz.addActionListener(this);
@@ -277,6 +288,19 @@ public class GUI implements ActionListener {
         panelP.add(PCfirmy);
         panelP.add(PBdodaj);
     }
+    public void initZapis() {
+        ZLzapisz = new JLabel("Zapisz dane do pliku");
+        ZBzapisz = new JButton("Zapisz");
+        ZBzapisz.addActionListener(this);
+
+        panelZ = new JPanel();
+        panelZ.setBounds(500, 250, 250, 250);
+        panelZ.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 30));
+        panelZ.setLayout(new GridLayout(0, 1));
+
+        panelZ.add(ZLzapisz);
+        panelZ.add(ZBzapisz);
+    }
     public void initFrame() {
         frame = new JFrame();
         frame.setLayout(null);
@@ -287,6 +311,7 @@ public class GUI implements ActionListener {
         frame.add(panelKdodaj);
         frame.add(panelK);
         frame.add(panelP);
+        frame.add(panelZ);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("System zarządzania firmami kurierskimi");
         //frame.pack();
@@ -500,6 +525,41 @@ public class GUI implements ActionListener {
             }
         }
     }
+    public void buttonKdostarcz(ActionEvent e) {
+        try {
+            if (e.getSource() == KBdostarcz) {
+                String dane = KTdostarcz.getText();
+                if (dane == null || dane.isEmpty()) {
+                    throw new Exception("Nie podano przesylek do dostarczenia");
+                }
+
+                String firma = (String) KCfirmy2.getSelectedItem();
+                String kurier = (String) KCkurierzy.getSelectedItem();
+                String[] podzielone = dane.split(" ");
+
+                for (String id : podzielone) {
+                    for (Firma f : firmy) {
+                        if (firma.equals(f.getNazwa())) {
+                            for (Kurier k : f.kurierzy) {
+                                if (kurier.equals(k.getImie() + " " + k.getNazwisko())) {
+                                    for (Przesylka p : k.posiadane) {
+                                        if (Integer.parseInt(id) == p.getId()) {
+                                            k.dostarcz(p);
+                                            System.out.println("Dostarczono przesylke id(" + p.getId() + ") przez kuriera " + k.getImie() + " " + k.getNazwisko());
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                KTdostarcz.setText("");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
     public void buttonPdodaj(ActionEvent e) {
         if (e.getSource() == PBdodaj) {
             int id = 0;
@@ -519,5 +579,9 @@ public class GUI implements ActionListener {
             }
         }
     }
+    public void buttonZapis(ActionEvent e) {
+        if (e.getSource() == ZBzapisz) {
+            System.out.println("elo");
+        }
+    }
 }
-
