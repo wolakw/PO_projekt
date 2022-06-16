@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 public class GUI implements ActionListener {
     private JFrame frame;
@@ -61,6 +64,16 @@ public class GUI implements ActionListener {
     // Zapis ---------------------------
     private JPanel panelZ;
     private JLabel ZLzapisz;
+    private JTextField ZTzapisz;
+    private JLabel ZLdaneF;
+    private JCheckBox ZCBdaneF;
+    private JCheckBox ZCBkurierzy;
+    private JCheckBox ZCBprzesylki;
+    private JLabel ZLdaneK;
+    private JCheckBox ZCBdaneK;
+    private JCheckBox ZCBposiadane;
+    private JCheckBox ZCBdostarczone;
+    private JCheckBox ZCBwszytko;
     private JButton ZBzapisz;
     public static ArrayList<Firma> firmy = new ArrayList<>();
 
@@ -102,6 +115,7 @@ public class GUI implements ActionListener {
 
         buttonZapis(e);
     }
+
     public void initFirma() {
         FLdodaj = new JLabel("Dodaj firmę");
         FLnazwa = new JLabel("Nazwa");
@@ -151,9 +165,9 @@ public class GUI implements ActionListener {
         panelFdodaj.add(FBdodajFirme);
 
         panelFpokaz = new JPanel();
-        panelFpokaz.setBounds(0,250,250,250);
-        panelFpokaz.setBorder(BorderFactory.createEmptyBorder(15,30,15,15));
-        panelFpokaz.setLayout(new GridLayout(0,1));
+        panelFpokaz.setBounds(0, 250, 250, 250);
+        panelFpokaz.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 15));
+        panelFpokaz.setLayout(new GridLayout(0, 1));
 
         panelFpokaz.add(FLpokazFirmy);
         panelFpokaz.add(FBpokazFirmy);
@@ -162,14 +176,15 @@ public class GUI implements ActionListener {
         panelFpokaz.add(FCpokazFirme);
 
         panelFusun = new JPanel();
-        panelFusun.setBounds(0,500,250,250);
-        panelFusun.setBorder(BorderFactory.createEmptyBorder(15,30,30,15));
-        panelFusun.setLayout(new GridLayout(0,1));
+        panelFusun.setBounds(0, 500, 250, 250);
+        panelFusun.setBorder(BorderFactory.createEmptyBorder(15, 30, 30, 15));
+        panelFusun.setLayout(new GridLayout(0, 1));
 
         panelFusun.add(FLusun);
         panelFusun.add(FTusun);
         panelFusun.add(FBusun);
     }
+
     public void initKurier() {
         KLdodaj = new JLabel("Dodaj Kuriera do firmy");
 
@@ -265,6 +280,7 @@ public class GUI implements ActionListener {
         panelK.add(KTdostarcz);
         panelK.add(KBdostarcz);
     }
+
     public void initPrzesylka() {
         PLdodaj = new JLabel("Dodaj paczkę do firmy");
 
@@ -288,19 +304,47 @@ public class GUI implements ActionListener {
         panelP.add(PCfirmy);
         panelP.add(PBdodaj);
     }
+
     public void initZapis() {
-        ZLzapisz = new JLabel("Zapisz dane do pliku");
+        ZLzapisz = new JLabel("Podaj nazwę pliku do zapisu");
+
+        ZTzapisz = new JTextField();
+
+        ZLdaneF = new JLabel("Dane firmy");
+        ZCBdaneF = new JCheckBox("Nazwa, data założenia, adres");
+        ZCBkurierzy = new JCheckBox("Kurierzy");
+        ZCBprzesylki = new JCheckBox("Przesyłki w magazynie");
+
+        ZLdaneK = new JLabel("Dane kuriera");
+        ZCBdaneK = new JCheckBox("Imię, nazwisko, id");
+        ZCBposiadane = new JCheckBox("Posiadane przesyłki");
+        ZCBdostarczone = new JCheckBox("Dostarczone przesyłki");
+
+        ZCBwszytko = new JCheckBox("Wszytkie dane");
+        ZCBwszytko.setHorizontalAlignment(JLabel.RIGHT);
+
         ZBzapisz = new JButton("Zapisz");
         ZBzapisz.addActionListener(this);
 
         panelZ = new JPanel();
-        panelZ.setBounds(500, 250, 250, 250);
-        panelZ.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 30));
+        panelZ.setBounds(500, 250, 250, 500);
+        panelZ.setBorder(BorderFactory.createEmptyBorder(15, 15, 30, 30));
         panelZ.setLayout(new GridLayout(0, 1));
 
         panelZ.add(ZLzapisz);
+        panelZ.add(ZTzapisz);
+        panelZ.add(ZLdaneF);
+        panelZ.add(ZCBdaneF);
+        panelZ.add(ZCBkurierzy);
+        panelZ.add(ZCBprzesylki);
+        panelZ.add(ZLdaneK);
+        panelZ.add(ZCBdaneK);
+        panelZ.add(ZCBposiadane);
+        panelZ.add(ZCBdostarczone);
+        panelZ.add(ZCBwszytko);
         panelZ.add(ZBzapisz);
     }
+
     public void initFrame() {
         frame = new JFrame();
         frame.setLayout(null);
@@ -317,6 +361,7 @@ public class GUI implements ActionListener {
         //frame.pack();
         frame.setVisible(true);
     }
+
     public void buttonFdodaj(ActionEvent e) {
         try {
             if (e.getSource() == FBdodajFirme) {
@@ -324,13 +369,13 @@ public class GUI implements ActionListener {
                 String data = FTdata.getText();
                 String adres = FTadres.getText();
 
-                if (nazwa == null || nazwa.isEmpty()){
+                if (nazwa == null || nazwa.isEmpty()) {
                     throw new IllegalArgumentException("Nie podano nazwy");
                 }
-                if (data == null || data.isEmpty()){
+                if (data == null || data.isEmpty()) {
                     throw new IllegalArgumentException("Nie podano daty");
                 }
-                if (adres == null || adres.isEmpty()){
+                if (adres == null || adres.isEmpty()) {
                     throw new IllegalArgumentException("Nie podano adresu");
                 }
 
@@ -363,11 +408,12 @@ public class GUI implements ActionListener {
                 FTadres.setText("");
             }
         } catch (IllegalArgumentException ex) {
-            System.out .println(ex.getMessage());
+            System.out.println(ex.getMessage());
         } catch (Exception ex) {
             System.out.println("Błedna data");
         }
     }
+
     public void buttonFpokaz(ActionEvent e) {
         if (e.getSource() == FBpokazFirmy) {
             System.out.println("\nLista firm: ");
@@ -380,6 +426,7 @@ public class GUI implements ActionListener {
             }
         }
     }
+
     public void buttonFpokaz1(ActionEvent e) {
         if (e.getSource() == FCpokazFirme) {
             String nazwa = (String) FCpokazFirme.getSelectedItem();
@@ -394,12 +441,13 @@ public class GUI implements ActionListener {
             }
         }
     }
+
     public void buttonFusun(ActionEvent e) {
         try {
             if (e.getSource() == FBusun) {
                 String nazwa = FTusun.getText();
 
-                if(nazwa == null || nazwa.isEmpty()) {
+                if (nazwa == null || nazwa.isEmpty()) {
                     throw new Exception("Nie podano firmy");
                 }
 
@@ -422,10 +470,11 @@ public class GUI implements ActionListener {
                     throw new Exception("Brak firmy w systemie");
                 }
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
+
     public void buttonKdodaj(ActionEvent e) {
         try {
             if (e.getSource() == KBdodaj) {
@@ -460,6 +509,7 @@ public class GUI implements ActionListener {
             System.out.println(ex.getMessage());
         }
     }
+
     public void buttonKfirmy(ActionEvent e) {
         if (e.getSource() == KCfirmy2) {
             String nazwa = (String) KCfirmy2.getSelectedItem();
@@ -478,30 +528,33 @@ public class GUI implements ActionListener {
             }
         }
     }
+
     public void buttonKposiadane(ActionEvent e) {
         if (e.getSource() == KBposiadane) {
             String kurier = (String) KCkurierzy.getSelectedItem();
             for (Firma f : firmy) {
                 for (Kurier k : f.kurierzy) {
-                    if (kurier.equals(k.getImie() + " " + k.getNazwisko())){
+                    if (kurier.equals(k.getImie() + " " + k.getNazwisko())) {
                         k.drukujPosiadane();
                     }
                 }
             }
         }
     }
+
     public void buttonKdostarczone(ActionEvent e) {
         if (e.getSource() == KBdostarczone) {
             String kurier = (String) KCkurierzy.getSelectedItem();
             for (Firma f : firmy) {
                 for (Kurier k : f.kurierzy) {
-                    if (kurier.equals(k.getImie() + " " + k.getNazwisko())){
+                    if (kurier.equals(k.getImie() + " " + k.getNazwisko())) {
                         k.drukujDostarczone();
                     }
                 }
             }
         }
     }
+
     public void buttonKprzydziel(ActionEvent e) {
         if (e.getSource() == KBprzydziel) {
             String firma = (String) KCfirmy2.getSelectedItem();
@@ -525,6 +578,7 @@ public class GUI implements ActionListener {
             }
         }
     }
+
     public void buttonKdostarcz(ActionEvent e) {
         try {
             if (e.getSource() == KBdostarcz) {
@@ -560,6 +614,7 @@ public class GUI implements ActionListener {
             System.out.println(ex.getMessage());
         }
     }
+
     public void buttonPdodaj(ActionEvent e) {
         if (e.getSource() == PBdodaj) {
             int id = 0;
@@ -579,9 +634,121 @@ public class GUI implements ActionListener {
             }
         }
     }
+
     public void buttonZapis(ActionEvent e) {
-        if (e.getSource() == ZBzapisz) {
-            System.out.println("elo");
+        try {
+            if (e.getSource() == ZBzapisz) {
+                try {
+                    String nazwa = ZTzapisz.getText() + ".txt";
+                    if (ZTzapisz.getText() == null || ZTzapisz.getText().isEmpty()) {
+                        throw new Exception("Nie podano nazwy pliku");
+                    }
+
+                    File file = new File(nazwa);
+
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+
+                    FileWriter fw = new FileWriter(file, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+
+                    if (!ZCBdaneF.isSelected() && !ZCBkurierzy.isSelected() && !ZCBprzesylki.isSelected() && !ZCBdaneK.isSelected()
+                            && !ZCBposiadane.isSelected() && !ZCBdostarczone.isSelected() && !ZCBwszytko.isSelected()) {
+                        throw new Exception("Nie wybrano żadnych danych");
+                    }
+
+                    if (ZCBwszytko.isSelected()) {
+                        ZCBdaneF.setSelected(true);
+                        ZCBkurierzy.setSelected(true);
+                        ZCBprzesylki.setSelected(true);
+                        ZCBdaneK.setSelected(true);
+                        ZCBposiadane.setSelected(true);
+                        ZCBdostarczone.setSelected(true);
+                    }
+
+                    if (ZCBdaneF.isSelected()) {
+                        bw.write("Dane o Firmach: \n");
+                        for (Firma f : firmy) {
+                            bw.write(f.toString() + "\n");
+                        }
+                    }
+
+                    for (Firma f : firmy) {
+                        if (ZCBkurierzy.isSelected()) {
+                            bw.write("\nKurierzy przypisani do firmy " + f.getNazwa() + ": " + "\n");
+
+                            if (f.kurierzy.isEmpty()) {
+                                bw.write("Brak przypisanych kurierow" + "\n");
+                            }
+
+                            for (Kurier k : f.kurierzy) {
+                                bw.write(k.toString());
+                            }
+                            bw.write("\n");
+                        }
+                        if (ZCBprzesylki.isSelected()) {
+                            bw.write("\nPrzesyłki w magazynie firmy " + f.getNazwa() + ": " + "\n");
+
+                            if (f.przesylki.isEmpty()) {
+                                bw.write("Brak przesyłek" + "\n");
+                            }
+
+                            for (Przesylka p : f.przesylki) {
+                                bw.write("Id przesylki: " + p.getId() + "\n");
+                            }
+                        }
+                        if (ZCBposiadane.isSelected()) {
+                            for (Kurier k : f.kurierzy) {
+                                bw.write("\nPrzesyłki posiadane przez " + k.getImie() + " " + k.getNazwisko() + ":");
+                                if (k.posiadane.isEmpty()) {
+                                    bw.write("\nBrak posiadanych przesyłek");
+                                }
+                                for (Przesylka p : k.posiadane) {
+                                    bw.write("\nPrzesyłka id(" + p.getId() + ")");
+                                }
+                                bw.write("\n");
+                            }
+                        }
+                        if (ZCBdostarczone.isSelected()) {
+                            for (Kurier k : f.kurierzy) {
+                                bw.write("\nPrzesyłki dostarczone przez " + k.getImie() + " " + k.getNazwisko() + ":");
+                                if (k.dostarczone.isEmpty()) {
+                                    bw.write("\nBrak dostarczonych przesyłek");
+                                }
+                                for (Przesylka p : k.dostarczone) {
+                                    bw.write("\nPrzesyłka id(" + p.getId() + ")");
+                                }
+                                bw.write("\n");
+                            }
+                        }
+                    }
+
+                    if (ZCBdaneK.isSelected()) {
+                        bw.write("\nLista kurierow: \n");
+                        for (Firma f : firmy) {
+                            for (Kurier k : f.kurierzy) {
+                                bw.write(k.toString());
+                            }
+                        }
+                    }
+
+                    System.out.println("Zapisano dane do pliku " + nazwa);
+                    ZTzapisz.setText("");
+                    ZCBdaneF.setSelected(false);
+                    ZCBkurierzy.setSelected(false);
+                    ZCBprzesylki.setSelected(false);
+                    ZCBdaneK.setSelected(false);
+                    ZCBposiadane.setSelected(false);
+                    ZCBdostarczone.setSelected(false);
+                    ZCBwszytko.setSelected(false);
+                    bw.close();
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+        } catch (Exception exe) {
+            System.out.println(exe.getMessage());
         }
     }
 }

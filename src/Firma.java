@@ -1,3 +1,5 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -58,7 +60,6 @@ public class Firma {
             System.out.println("Id przesylki: " + p.getId());
         }
     }
-
     public void dodajKuriera(Kurier k) {
         kurierzy.add(k);
     }

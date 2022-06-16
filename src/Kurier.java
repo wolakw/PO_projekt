@@ -4,7 +4,7 @@ public class Kurier {
     private String imie;
     private String nazwisko;
     private int id;
-    private ArrayList<Przesylka> dostarczone;
+    public ArrayList<Przesylka> dostarczone;
     public ArrayList<Przesylka> posiadane;
 
     public String getImie() {
@@ -64,5 +64,9 @@ public class Kurier {
         for(Przesylka p : posiadane) {
             System.out.println("Id przesylki: " + p.getId());
         }
+    }
+
+    public String toString() {
+        return "\n" + getImie() + " " + getNazwisko() + " id(" + getId() + ")";
     }
 }
