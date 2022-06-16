@@ -348,7 +348,7 @@ public class GUI implements ActionListener {
     public void initFrame() {
         frame = new JFrame();
         frame.setLayout(null);
-        frame.setSize(750, 750);
+        frame.setSize(770, 790);
         frame.add(panelFdodaj);
         frame.add(panelFpokaz);
         frame.add(panelFusun);
@@ -358,7 +358,6 @@ public class GUI implements ActionListener {
         frame.add(panelZ);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("System zarządzania firmami kurierskimi");
-        //frame.pack();
         frame.setVisible(true);
     }
 
