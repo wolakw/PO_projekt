@@ -10,7 +10,7 @@ import java.io.FileWriter;
 
 
 /**
- * Klasa z graficznym interfejsem urzytkownika
+ * Klasa z graficznym interfejsem uzytkownika
  */
 public class GUI implements ActionListener {
     private JFrame frame;
