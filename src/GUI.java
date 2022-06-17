@@ -8,6 +8,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+
+/**
+ * Klasa z graficznym interfejsem urzytkownika
+ */
 public class GUI implements ActionListener {
     private JFrame frame;
 
@@ -77,6 +81,9 @@ public class GUI implements ActionListener {
     private JButton ZBzapisz;
     public static ArrayList<Firma> firmy = new ArrayList<>();
 
+    /**
+     * Metoda w której inicjalizowane sa elementy interfejsu
+     */
     public GUI() {
         initFirma();
 
@@ -89,6 +96,10 @@ public class GUI implements ActionListener {
         initFrame();
     }
 
+    /**
+     * Metoda z interfesju ActionListener
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         buttonFdodaj(e);
@@ -116,6 +127,9 @@ public class GUI implements ActionListener {
         buttonZapis(e);
     }
 
+    /**
+     * Metoda inicjalizyjaca wszystkie elementy interfejsu zwiazane z firma
+     */
     public void initFirma() {
         FLdodaj = new JLabel("Dodaj firmę");
         FLnazwa = new JLabel("Nazwa");
@@ -185,6 +199,9 @@ public class GUI implements ActionListener {
         panelFusun.add(FBusun);
     }
 
+    /**
+     * Metoda inicjalizyjaca wszystkie elementy interfejsu zwiazane z kurierem
+     */
     public void initKurier() {
         KLdodaj = new JLabel("Dodaj Kuriera do firmy");
 
@@ -281,10 +298,13 @@ public class GUI implements ActionListener {
         panelK.add(KBdostarcz);
     }
 
+    /**
+     * Metoda inicjalizyjaca wszystkie elementy interfejsu zwiazane z przesylka
+     */
     public void initPrzesylka() {
-        PLdodaj = new JLabel("Dodaj paczkę do firmy");
+        PLdodaj = new JLabel("Dodaj przesyłkę do firmy");
 
-        PLfirma = new JLabel("Firma do, której przydzielana jest paczka");
+        PLfirma = new JLabel("Firma do przydzielenia");
         PCfirmy = new JComboBox();
         for (Firma f : firmy) {
             PCfirmy.addItem(f.getNazwa());
@@ -305,6 +325,9 @@ public class GUI implements ActionListener {
         panelP.add(PBdodaj);
     }
 
+    /**
+     * Metoda inicjalizyjaca wszystkie elementy interfejsu zwiazane z zapisem do pliku
+     */
     public void initZapis() {
         ZLzapisz = new JLabel("Podaj nazwę pliku do zapisu");
 
@@ -345,6 +368,9 @@ public class GUI implements ActionListener {
         panelZ.add(ZBzapisz);
     }
 
+    /**
+     * Metoda inicjalizyjaca frame do ktorego dodawane sa panele
+     */
     public void initFrame() {
         frame = new JFrame();
         frame.setLayout(null);
@@ -361,6 +387,9 @@ public class GUI implements ActionListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do dodania firmy
+     */
     public void buttonFdodaj(ActionEvent e) {
         try {
             if (e.getSource() == FBdodajFirme) {
@@ -413,6 +442,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do pokazania danych wszytkich firm
+     */
     public void buttonFpokaz(ActionEvent e) {
         if (e.getSource() == FBpokazFirmy) {
             System.out.println("\nLista firm: ");
@@ -426,6 +458,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do pokazania danych jednej firmy
+     */
     public void buttonFpokaz1(ActionEvent e) {
         if (e.getSource() == FCpokazFirme) {
             String nazwa = (String) FCpokazFirme.getSelectedItem();
@@ -441,6 +476,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do usuniecia firmy
+     */
     public void buttonFusun(ActionEvent e) {
         try {
             if (e.getSource() == FBusun) {
@@ -474,6 +512,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do dodania kuriera
+     */
     public void buttonKdodaj(ActionEvent e) {
         try {
             if (e.getSource() == KBdodaj) {
@@ -509,6 +550,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wyboru z comboboxa z lista firm
+     */
     public void buttonKfirmy(ActionEvent e) {
         if (e.getSource() == KCfirmy2) {
             String nazwa = (String) KCfirmy2.getSelectedItem();
@@ -528,6 +572,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do wyswietlania posiadanych przesylek
+     */
     public void buttonKposiadane(ActionEvent e) {
         if (e.getSource() == KBposiadane) {
             String kurier = (String) KCkurierzy.getSelectedItem();
@@ -541,6 +588,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do wyswietlania dostarczonych przesylek
+     */
     public void buttonKdostarczone(ActionEvent e) {
         if (e.getSource() == KBdostarczone) {
             String kurier = (String) KCkurierzy.getSelectedItem();
@@ -554,6 +604,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do przydzielenia przesylki
+     */
     public void buttonKprzydziel(ActionEvent e) {
         if (e.getSource() == KBprzydziel) {
             String firma = (String) KCfirmy2.getSelectedItem();
@@ -578,6 +631,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do dostarczenia przesylki
+     */
     public void buttonKdostarcz(ActionEvent e) {
         try {
             if (e.getSource() == KBdostarcz) {
@@ -614,6 +670,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do dodania przesylki
+     */
     public void buttonPdodaj(ActionEvent e) {
         if (e.getSource() == PBdodaj) {
             int id = 0;
@@ -634,6 +693,9 @@ public class GUI implements ActionListener {
         }
     }
 
+    /**
+     * Metoda odpowiadajaca za nasluchiwanie wcisniecia przycisku do zapisu danych
+     */
     public void buttonZapis(ActionEvent e) {
         try {
             if (e.getSource() == ZBzapisz) {
